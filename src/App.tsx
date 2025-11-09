@@ -73,7 +73,7 @@ function App() {
                 onClick={() => setCurrentPage('home')}
                 className="text-2xl font-bold text-slate-900 hover:text-blue-600 transition-colors"
               >
-              <img className='w-12' src="/images/Logo_AMAK1.png" title="Logo Amak éléctricité" />
+              <img className="w-12" src="/images/Logo_AMAK1.png" title="Logo Amak éléctricité" />
                 AMAK Électricité
               </button>
             </div>
