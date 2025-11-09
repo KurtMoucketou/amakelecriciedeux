@@ -51,7 +51,7 @@ function App() {
               <div className="flex items-center gap-4">
                 <a href="tel:+33123456789" className="flex items-center gap-2 hover:text-blue-400 transition-colors">
                   <Phone className="w-4 h-4" />
-                  <span className="hidden sm:inline">+33 1 23 45 67 89</span>
+                  <span className="hidden sm:inline">+241 7 23 45 67 89</span>
                 </a>
                 <a href="mailto:contact@amak-electricite.com" className="flex items-center gap-2 hover:text-blue-400 transition-colors">
                   <Mail className="w-4 h-4" />
@@ -60,7 +60,7 @@ function App() {
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                <span className="text-xs sm:text-sm">Paris, Île-de-France</span>
+                <span className="text-xs sm:text-sm">Libreville, Nzeng-Ayong</span>
               </div>
             </div>
           </div>
@@ -71,10 +71,10 @@ function App() {
             <div className="flex items-center">
               <button
                 onClick={() => setCurrentPage('home')}
-                className="text-2xl font-bold text-slate-900 hover:text-blue-600 transition-colors"
+                className="text-2xl font-bold text-slate-900 hover:text-blue-600 transition-colors" width="max-content"
               >
-              <img className="w-12" src="/images/Logo_AMAK1.png" title="Logo Amak éléctricité" />
-                AMAK Électricité
+              <img className="d-flex" width="76rem" src="/images/Logo_AMAK1.png" title="Logo Amak éléctricité" />
+                <div className="flex items-center">AMAK Électricité</div>
               </button>
             </div>
 
