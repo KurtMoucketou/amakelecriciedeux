@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menu, X, Phone, Mail, MapPin, ChevronDown } from 'lucide-react';
 import HomePage from './pages/HomePage';
-import PresentationPage from './pages/PresentationPage';
+import PresentationGeneral from './pages/PresentationGeneral';
 import ServicesPage from './pages/ServicesPage';
 import NewsPage from './pages/NewsPage';
 import PortfolioPage from './pages/PortfolioPage';
@@ -13,10 +13,11 @@ function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [legalDropdownOpen, setLegalDropdownOpen] = useState(false);
 
   const navigation = [
     { name: 'Accueil', id: 'home' as PageType },
-    { name: 'Présentation', id: 'presentation' as PageType },
+    { name: 'Présentation', id: 'PresentationGeneral' as PageType, hasDropdown: true },
     { name: 'Services', id: 'services' as PageType, hasDropdown: true },
     { name: 'Actualités', id: 'news' as PageType },
     { name: 'Portfolio', id: 'portfolio' as PageType },
@@ -28,7 +29,7 @@ function App() {
       case 'home':
         return <HomePage onNavigate={setCurrentPage} />;
       case 'presentation':
-        return <PresentationPage />;
+        return <PresentationGeneral />;
       case 'services':
         return <ServicesPage />;
       case 'news':
@@ -51,11 +52,11 @@ function App() {
               <div className="flex items-center gap-4">
                 <a href="tel:+33123456789" className="flex items-center gap-2 hover:text-blue-400 transition-colors">
                   <Phone className="w-4 h-4" />
-                  <span className="hidden sm:inline">+241 7 23 45 67 89</span>
+                  <span className="hidden sm:inline">+241 77 47 64 24</span>
                 </a>
                 <a href="mailto:contact@amak-electricite.com" className="flex items-center gap-2 hover:text-blue-400 transition-colors">
                   <Mail className="w-4 h-4" />
-                  <span className="hidden sm:inline">contact@amak-electricite.com</span>
+                  <span className="hidden sm:inline">contact@amakelectricite.com</span>
                 </a>
               </div>
               <div className="flex items-center gap-2">
@@ -71,25 +72,40 @@ function App() {
             <div className="flex items-center">
               <button
                 onClick={() => setCurrentPage('home')}
-                className="text-2xl font-bold text-slate-900 hover:text-blue-600 transition-colors" width="max-content"
+                className="text-2xl font-bold text-slate-900 hover:text-blue-600 transition-colors w-100"
               >
-              <img className="d-flex" width="76rem" src="/images/Logo_AMAK1.png" title="Logo Amak éléctricité" />
-                <div className="flex items-center">AMAK Électricité</div>
+               <img src="/images/Logo_AMAK1.png" className="w-20 h-18 text-white" /> 
               </button>
             </div>
 
             <div className="hidden md:flex items-center space-x-1">
               {navigation.map((item) => (
-                <div key={item.id} className="relative">
+                <div key={item.name} className="relative">
                   {item.hasDropdown ? (
                     <div
-                      onMouseEnter={() => setServicesDropdownOpen(true)}
-                      onMouseLeave={() => setServicesDropdownOpen(false)}
+                      onMouseEnter={() => {
+                        if (item.name === 'Services') {
+                          setServicesDropdownOpen(true);
+                        } else if (item.name === 'Présentation') {
+                          setLegalDropdownOpen(true);
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (item.name === 'Services') {
+                          setServicesDropdownOpen(false);
+                        } else if (item.name === 'Présentation') {
+                          setLegalDropdownOpen(false);
+                        }
+                      }}
                     >
                       <button
-                        onClick={() => setCurrentPage(item.id)}
+                        onClick={() => {
+                          if (item.id) {
+                            setCurrentPage(item.id);
+                          }
+                        }}
                         className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-1 ${
-                          currentPage === item.id
+                          item.id && currentPage === item.id
                             ? 'text-blue-600 bg-blue-50'
                             : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
                         }`}
@@ -97,7 +113,7 @@ function App() {
                         {item.name}
                         <ChevronDown className="w-4 h-4" />
                       </button>
-                      {servicesDropdownOpen && (
+                      {item.name === 'Services' && servicesDropdownOpen && (
                         <div className="absolute top-full left-0 mt-1 w-64 bg-white shadow-lg rounded-lg py-2 border border-slate-200">
                           <button
                             onClick={() => { setCurrentPage('services'); setServicesDropdownOpen(false); }}
@@ -125,12 +141,30 @@ function App() {
                           </button>
                         </div>
                       )}
+                      {item.name === 'Présentation' && legalDropdownOpen && (
+                        <div className="absolute top-full left-0 mt-1 w-64 bg-white shadow-lg rounded-lg py-2 border border-slate-200">
+                          <button
+                            className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                          >
+                            Conditions générales
+                          </button>
+                          <button
+                            className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                          >
+                            Qualité – chartes de l'entreprise
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <button
-                      onClick={() => setCurrentPage(item.id)}
+                      onClick={() => { 
+                        if (item.id) {
+                          setCurrentPage(item.id);
+                        }
+                      }}
                       className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                        currentPage === item.id
+                        item.id && currentPage === item.id
                           ? 'text-blue-600 bg-blue-50'
                           : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
                       }`}
@@ -196,6 +230,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
+               <img src="/images/Logo_AMAK1.png" className="w-20 h-18 text-white" />
               <h3 className="text-xl font-bold mb-4">AMAK Électricité</h3>
               <p className="text-slate-400 text-sm">
                 Votre partenaire de confiance pour tous vos travaux d'électricité et d'énergies renouvelables.
@@ -234,18 +269,18 @@ function App() {
                 <li className="flex items-start gap-2">
                   <Phone className="w-4 h-4 mt-1 flex-shrink-0" />
                   <a href="tel:+33123456789" className="hover:text-white transition-colors">
-                    +33 1 23 45 67 89
+                    +241 77 47 64 24
                   </a>
                 </li>
                 <li className="flex items-start gap-2">
                   <Mail className="w-4 h-4 mt-1 flex-shrink-0" />
                   <a href="mailto:contact@amak-electricite.com" className="hover:text-white transition-colors">
-                    contact@amak-electricite.com
+                    contact@amakelectricite.com
                   </a>
                 </li>
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
-                  <span>Paris, Île-de-France</span>
+                  <span>Libreville, Nzeng-Ayong</span>
                 </li>
               </ul>
             </div>
